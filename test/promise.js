@@ -68,25 +68,33 @@ exports.promise = {
         [String]
     ),
     'when building transformer, it should return correct value': λ.check(
-		function (a) {
-			var PTI = Promise.PromiseT (I); // Identity Monad
-			return PTI.of (a).fork (identity).x  === I.of (a).x;
-		},
-		[λ.AnyVal]
+        function (a) {
+          var PTI = Promise.PromiseT (I); // Identity Monad
+          return PTI.of (a).fork (identity).x  === I.of (a).x;
+        },
+        [λ.AnyVal]
     ),
     'when lifting into transformer, it should return correct value': λ.check(
-		function (a) {
-			var PTI = Promise.PromiseT (I); // Identity Monad
-			return PTI.lift (I.of (a)).fork (identity).x  === I.of (a).x;
-		},
-		[λ.AnyVal]
+        function (a) {
+          var PTI = Promise.PromiseT (I); // Identity Monad
+          return PTI.lift (I.of (a)).fork (identity).x  === I.of (a).x;
+        },
+        [λ.AnyVal]
     ),
     'when chaining transformer, it should return correct value': λ.check(
-		function (a) {
-			var PTI = Promise.PromiseT (I); // Identity Monad
-			return PTI.of (a).chain (PTI.lift).fork (identity).x  === I.of (a).x;
-		},
-		[λ.AnyVal]
+        function (a) {
+          var PTI = Promise.PromiseT (I); // Identity Monad
+          return PTI.of (a).chain (PTI.lift).fork (identity).x  === I.of (a).x;
+        },
+        [λ.AnyVal]
+    ),
+    'when mapping transformer, it should return correct value': λ.check(
+        function (a) {
+          function addOne (a) { return a + 1; }
+          var PTI = Promise.PromiseT (I); // Identity Monad
+          return PTI.of (a).map (addOne).fork (identity).x  === I.of (a + 1).x;
+        },
+        [Number]
     ),
 };
 

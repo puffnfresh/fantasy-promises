@@ -108,7 +108,7 @@ Promise.PromiseT = function (M) {
 
   PromiseT.prototype.map = function (f) {
     return this.chain (function (m) {
-      return PromiseT.lift (f (m));
+      return PromiseT.lift (m.map (f));
     });
   };
 
