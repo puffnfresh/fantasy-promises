@@ -82,6 +82,39 @@ Promise.prototype.extend = function(f) {
     });
 };
 
+Promise.PromiseT = function (M) {
+  var PromiseT = daggy.tagged ('fork');
+
+  PromiseT.lift = function (m) {
+    return new PromiseT (function (resolve) {
+      return resolve (m);
+    });
+  };
+
+  PromiseT.of = function (x) {
+    return new PromiseT (function (resolve) {
+      return resolve (M.of (x));
+    });
+  };
+
+  PromiseT.prototype.chain = function (f) {
+    var p = this;
+    return new PromiseT (function (resolve) {
+      return p.fork (function (m) {
+        return f (m).fork (resolve);
+      });
+    });
+  };
+
+  PromiseT.prototype.map = function (f) {
+    return this.chain (function (m) {
+      return PromiseT.lift (m.map (f));
+    });
+  };
+
+  return PromiseT;
+};
+
 // Export
 if (typeof module != 'undefined')
     module.exports = Promise;
