@@ -30,13 +30,17 @@
     "fantasy-check": "0.0.8",
     "fantasy-helpers": "0.0.x",
     "fantasy-combinators": "0.0.x",
+    "fantasy-identities": "0.0.1",
     "fantasy-io": "0.0.x"
   },
   "scripts": {
-      "readme": "$(npm bin)/emu < src/promise.js > README.md",
-      "test": "grunt"
+    "readme": "$(npm bin)/emu < src/promise.js > README.md",
+    "test": "grunt"
   },
-  "files": ["fantasy-promises.js", "src/*.js"],
+  "files": [
+    "fantasy-promises.js",
+    "src/*.js"
+  ],
   "main": "fantasy-promises.js",
   "version": "0.1.1"
 }
