@@ -1,5 +1,6 @@
 const daggy = require('daggy');
 const {identity} = require('fantasy-combinators');
+const {append, lift2} = require('fantasy-sorcery');
 /**
     # Fantasy Promises
 
@@ -49,6 +50,18 @@ Promise.prototype.chain = function(f) {
     return Promise((resolve) => {
         return this.fork((a) => f(a).fork(resolve));
     });
+};
+
+/**
+    ### `concat(that)`
+
+    Returns a new promise that, if both this promise and the given
+    promise resolve, returns the two results concatenated together.
+    Note that `this` and `that` must both return a particular
+    semigroup.
+**/
+Promise.prototype.concat = function(that) {
+    return lift2(append, this, that);
 };
 
 /**

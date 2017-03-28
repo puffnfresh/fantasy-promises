@@ -2,7 +2,8 @@ const λ = require('fantasy-check/src/adapters/nodeunit');
 const applicative = require('fantasy-check/src/laws/applicative');
 const functor = require('fantasy-check/src/laws/functor');
 const monad = require('fantasy-check/src/laws/monad');
-    
+const semigroup = require('fantasy-check/src/laws/semigroup');
+
 const {identity} = require('fantasy-combinators');
 const Identity = require('fantasy-identities');
 const Promise = require('../fantasy-promises');
@@ -30,6 +31,10 @@ exports.promise = {
     'Left Identity (Monad)': monad.leftIdentity(λ)(Promise, run),
     'Right Identity (Monad)': monad.rightIdentity(λ)(Promise, run),
     'Associativity (Monad)': monad.associativity(λ)(Promise, run),
+
+    // Semigroup tests
+    'All (Semigroup)': semigroup.laws(λ)(Promise.of, run),
+    'Associativity (Semigroup)': semigroup.associativity(λ)(Promise.of, run),
 
     // Manual tests
     'when testing extend should return correct value': λ.check(
